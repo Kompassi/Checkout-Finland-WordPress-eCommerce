@@ -63,15 +63,13 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 
        	// get the payment url from response
        	$xml = simplexml_load_string($response);
-       	if($xml)
-       	{
+       	if($xml) {
        		// redirect to checkout payment page
        		status_header(302);
 			wp_redirect($xml->paymentURL);
 			exit;
 		}
-		else 
-		{
+		else  {
 			echo "Virhe. Maksutapahtuman luonti ei onnistunut.";
 		}
 
@@ -187,8 +185,6 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 
 		if($expected_mac == $mac)
     	{
-    		$this->purchase_id = $stamp;
-
     		switch($status)
     		{
     			case '2':
