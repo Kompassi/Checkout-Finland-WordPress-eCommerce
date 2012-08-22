@@ -190,12 +190,12 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     			case '2':
     			case '5':
     			case '6':
-    			case '7':
     			case '8':
     			case '9':
     			case '10':
 					$this->set_transaction_details($payment, 3);
     				break;
+    			case '7':
     			case '3':
     			case '4':
     				$this->set_purchase_processed_by_purchid(2);
