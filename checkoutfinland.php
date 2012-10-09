@@ -45,11 +45,11 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		$post['TYPE']			= "0";
 		$post['ALGORITHM']		= "2";
 		$post['DELIVERY_DATE']	= date('Ymd', strtotime("+".get_option('checkoutfinland_delivery_time')." days"));
-		$post['FIRSTNAME']		= substr($this->cart_data['billing_address']['first_name'], 0, 40);
-		$post['FAMILYNAME']		= substr($this->cart_data['billing_address']['last_name'], 0, 40);
-		$post['ADDRESS']		= substr($this->cart_data['billing_address']['address'], 0, 40);
-		$post['POSTCODE']		= substr($this->cart_data['billing_address']['post_code'], 0, 5);
-		$post['POSTOFFICE']		= substr($this->cart_data['billing_address']['city'] ." ".$this->cart_data['billing_address']['country'], 0, 18);
+		$post['FIRSTNAME']		= "".substr($this->cart_data['billing_address']['first_name'], 0, 40);
+		$post['FAMILYNAME']		= "".substr($this->cart_data['billing_address']['last_name'], 0, 40);
+		$post['ADDRESS']		= "".substr($this->cart_data['billing_address']['address'], 0, 40);
+		$post['POSTCODE']		= "".substr($this->cart_data['billing_address']['post_code'], 0, 5);
+		$post['POSTOFFICE']		= "".substr($this->cart_data['billing_address']['city'] ." ".$this->cart_data['billing_address']['country'], 0, 18);
 
 		$mac = "";
 		foreach($post as $value) {
