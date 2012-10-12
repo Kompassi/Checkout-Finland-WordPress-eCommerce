@@ -16,6 +16,15 @@ $nzshpcrt_gateways[$num] = array(
 class wpsc_merchant_checkoutfinland extends wpsc_merchant
 {
 
+	public function __construct($purchase_id = null, $is_receiving = false)
+	{
+		if($purchase_id == null and (isset($_GET['STAMP']) and isset($_GET['MAC']))) {
+			$purchase_id = $_GET['STAMP'];
+		}
+
+		parent::__construct($purchase_id, $is_receiving);
+	}
+
 	public function submit()
 	{
 
@@ -32,7 +41,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		$post['LANGUAGE']		= $this->getLanguage();
 		$post['MERCHANT']		= get_option('checkoutfinland_merchant_id');
 		// responses from checkout are handled in the same function
-		$return_url				= substr($this->cart_data['notification_url'] .$separator."sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
+		$return_url				= substr($this->cart_data['notification_url'] .$separator."purchase_id={$this->purchase_id}&sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
 		$post['RETURN']			= $return_url;
 		$post['CANCEL']			= $return_url;
 		$post['REJECT']			= $return_url;
@@ -57,7 +66,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		}
 		$mac .= get_option('checkoutfinland_secret');
 		$post['MAC'] = strtoupper(md5($mac));
-
+		
 		// post the data
 		$response = $this->postData($post);
 
@@ -193,23 +202,24 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     			case '8':
     			case '9':
     			case '10':
-					$this->set_transaction_details($payment, 3);
+					$this->set_purchase_processed_by_purchid(3);
     				break;
     			case '7':
     			case '3':
     			case '4':
-    				$this->set_purchase_processed_by_purchid(2);
+    				$this->set_transaction_details($stamp, 2);
     				break;
     			case '-1':
-    				$this->set_purchase_processed_by_purchid(6);
+    				$this->set_transaction_details($stamp, 6);
     				break;
     			case '-2':
     			case '-3':
     			case '-4':
     			case '-10':
-    				$this->set_purchase_processed_by_purchid(6);
+    				$this->set_transaction_details($stamp, 6);
     				break;
     		}
+
     		status_header(302);
 			wp_redirect(get_option('transact_url').$separator."sessionid=".$_GET['sessionid']);
     	}
