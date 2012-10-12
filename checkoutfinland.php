@@ -41,7 +41,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		$post['LANGUAGE']		= $this->getLanguage();
 		$post['MERCHANT']		= get_option('checkoutfinland_merchant_id');
 		// responses from checkout are handled in the same function
-		$return_url				= substr($this->cart_data['notification_url'] .$separator."purchase_id={$this->purchase_id}&sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
+		$return_url				= substr($this->cart_data['notification_url'] .$separator."sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
 		$post['RETURN']			= $return_url;
 		$post['CANCEL']			= $return_url;
 		$post['REJECT']			= $return_url;
