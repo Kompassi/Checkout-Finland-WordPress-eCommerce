@@ -28,11 +28,6 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 	public function submit()
 	{
 
-		if(get_option('permalink_structure') != '')
-			$separator ="?";
-		else
-			$separator ="&";
-
 		$post['VERSION']		= "0001";
 		$post['STAMP']			= $this->purchase_id;
 		$post['AMOUNT']			= $this->cart_data['total_price'] * 100; // amount is in cents
@@ -41,7 +36,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		$post['LANGUAGE']		= $this->getLanguage();
 		$post['MERCHANT']		= get_option('checkoutfinland_merchant_id');
 		// responses from checkout are handled in the same function
-		$return_url				= substr($this->cart_data['notification_url'] .$separator."sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
+		$return_url				= substr($this->cart_data['notification_url'] ."&sessionid=".$this->cart_data['session_id']."&gateway=wpsc_merchant_checkoutfinland", 0, 300);
 		$post['RETURN']			= $return_url;
 		$post['CANCEL']			= $return_url;
 		$post['REJECT']			= $return_url;
@@ -171,11 +166,6 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 	public function process_gateway_notification()
 	{
 		global $wpdb;
-
-		if(get_option('permalink_structure') != '')
-			$separator ="?";
-		else
-			$separator ="&";
 		
 		$version   	= $_GET['VERSION'];
     	$stamp     	= $_GET['STAMP'];
@@ -221,7 +211,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     		}
 
     		status_header(302);
-			wp_redirect(get_option('transact_url').$separator."sessionid=".$_GET['sessionid']);
+			wp_redirect(get_option('transact_url')."&sessionid=".$_GET['sessionid']);
     	}
     	else
     	{
