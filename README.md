@@ -22,11 +22,14 @@ Checkout Finland payment method for WordPress eCommerce plugin
 ==============================================================
 
 Installation:
-	- Copy the checkoutfinland.php file to wordpress/wp-content/plugins/wp-e-commerce/wpsc-merchant folder
-	- Set your merchant id, security key and delivery time in eCommerce payment method settings page
 
-Testing:
-	- You can test the installation by using the following merchant id and security key
+Copy the checkoutfinland.php file to wordpress/wp-content/plugins/wp-e-commerce/wpsc-merchant folder
+
+Set your merchant id, security key and delivery time in eCommerce payment method settings page
+
+Testing
+
+You can test the installation by using the following merchant id and security key
 
 	Merchant id: 375917
 	Security key: SAIPPUAKAUPPIAS
