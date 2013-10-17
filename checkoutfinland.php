@@ -47,7 +47,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
 		$post['DEVICE']			= "10";
 		$post['CONTENT']		= "1";
 		$post['TYPE']			= "0";
-		$post['ALGORITHM']		= "2";
+		$post['ALGORITHM']		= "3";
 		$post['DELIVERY_DATE']	= date('Ymd', strtotime("+".get_option('checkoutfinland_delivery_time')." days"));
 		$post['FIRSTNAME']		= "".substr($this->cart_data['billing_address']['first_name'], 0, 40);
 		$post['FAMILYNAME']		= "".substr($this->cart_data['billing_address']['last_name'], 0, 40);
@@ -180,6 +180,8 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     		$expected_mac = strtoupper(md5("$version+$stamp+$reference+$payment+$status+$algorithm+$secret"));
     	elseif($algorithm == 2)
     		$expected_mac = strtoupper(md5("$secret&$version&$stamp&$reference&$payment&$status&$algorithm"));
+    	elseif($algorithm == 3) 
+    		$expected_mac = strtoupper(hash_hmac("sha256","$version&$stamp&$reference&$payment&$status&$algorithm", $secret));
     	else throw new Exception('Unsuported algorithm: '.$algorithm);
 
 		if($expected_mac == $mac)
@@ -211,7 +213,7 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     		}
 
     		status_header(302);
-			wp_redirect(get_option('transact_url')."&sessionid=".$_GET['sessionid']);
+			wp_redirect(get_option('transact_url')."&sessionid=".$_GET['sessionid']."?status=$status");
     	}
     	else
     	{
