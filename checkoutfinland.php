@@ -212,8 +212,16 @@ class wpsc_merchant_checkoutfinland extends wpsc_merchant
     				break;
     		}
 
+			$url = get_option('transact_url');
+
+            if(strpos($url,'?') !== false) {
+			   $url .= "&sessionid=".$_GET['sessionid'];
+			} else {
+			   $url .= "?sessionid=".$_GET['sessionid'];
+			}
+
     		status_header(302);
-			wp_redirect(get_option('transact_url')."&sessionid=".$_GET['sessionid']);
+			wp_redirect($url);
     	}
     	else
     	{
